@@ -37,7 +37,7 @@ const SignUpPage = () => {
   const handlesubmit = (e) => {
     e.preventDefault();
     const success = validateForm();
-    if (success) signup(formData);
+    if (success == true) signup(formData);
     setFormData({
       fullname: "",
       email: "",
@@ -145,7 +145,7 @@ const SignUpPage = () => {
           </form>
           <div className="text-center">
             <p className="text-base-content/60">
-              Already have a account?{" "}
+              Already have an account?{" "}
               <Link to="/login" className="link link-info">
                 Sign in
               </Link>
