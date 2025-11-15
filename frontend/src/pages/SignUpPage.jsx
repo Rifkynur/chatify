@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useAuthStore } from "../store/useAuthStore";
+import { Link } from "react-router-dom";
 import {
   Eye,
   EyeOff,
@@ -9,20 +10,39 @@ import {
   MessageSquare,
   User,
 } from "lucide-react";
+import AuthImagePattern from "../components/AuthImagePattern";
+import toast from "react-hot-toast";
 
 const SignUpPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
-    fullName: "",
+    fullname: "",
     email: "",
     password: "",
   });
 
   const { signup, isSigningUp } = useAuthStore();
 
-  const validateForm = () => {};
+  const validateForm = () => {
+    if (!formData.fullname.trim()) return toast.error("Fullname is required");
+    if (!formData.email.trim()) return toast.error("Email is required");
+    if (!/\S+@\S+\.\S+/.test(formData.email))
+      return toast.error("Invalid email format");
+    if (!formData.password) return toast.error("Password is required");
+    if (formData.password.length < 6)
+      return toast.error("Password must be at least 6 characters");
+
+    return true;
+  };
   const handlesubmit = (e) => {
     e.preventDefault();
+    const success = validateForm();
+    if (success) signup(formData);
+    setFormData({
+      fullname: "",
+      email: "",
+      password: "",
+    });
   };
   return (
     <div className="min-h-screen grid lg:grid-cols-2">
@@ -47,18 +67,18 @@ const SignUpPage = () => {
                 <span className="label-text font-medium">Full Name</span>
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
                   <User className="size-5 text-base-content/40" />
                 </div>
                 <input
                   type="text"
-                  name="fullName"
+                  name="fullname"
                   placeholder="john cena"
-                  value={formData.fullName}
+                  value={formData.fullname}
                   onChange={(e) =>
-                    setFormData({ ...formData, fullName: e.target.value })
+                    setFormData({ ...formData, fullname: e.target.value })
                   }
-                  className={`input input-bordered w-full pl-10 `}
+                  className={`input input-bordered w-full pl-10 focus:border-none `}
                 />
               </div>
             </div>
@@ -67,7 +87,7 @@ const SignUpPage = () => {
                 <span className="label-text font-medium">Email</span>
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
                   <Mail className="size-5 text-base-content/40" />
                 </div>
                 <input
@@ -78,7 +98,7 @@ const SignUpPage = () => {
                   onChange={(e) =>
                     setFormData({ ...formData, email: e.target.value })
                   }
-                  className={`input input-bordered w-full pl-10 `}
+                  className={`input input-bordered w-full pl-10 focus:border-none`}
                 />
               </div>
             </div>
@@ -87,7 +107,7 @@ const SignUpPage = () => {
                 <span className="label-text font-medium">Password</span>
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
                   <Lock className="size-5 text-base-content/40" />
                 </div>
                 <input
@@ -98,14 +118,15 @@ const SignUpPage = () => {
                   onChange={(e) =>
                     setFormData({ ...formData, password: e.target.value })
                   }
-                  className={`input input-bordered w-full pl-10 `}
+                  className={`input input-bordered w-full pl-10 focus:border-none`}
                 />
                 <button
                   type="button"
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center z-10 cursor-pointer"
+                  onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
-                    <EyeOff className="size-5 text-base-content/" />
+                    <EyeOff className="size-5 text-base-content/40" />
                   ) : (
                     <Eye className="size-5 text-base-content/40" />
                   )}
@@ -115,15 +136,30 @@ const SignUpPage = () => {
             <button className="btn btn-primary w-full" disabled={isSigningUp}>
               {isSigningUp ? (
                 <>
-                  <Loader2 className="size-5 animate-spin" />
+                  <Loader2 className="size-5 animate-spin " />
                 </>
               ) : (
                 "Create Account"
               )}
             </button>
           </form>
+          <div className="text-center">
+            <p className="text-base-content/60">
+              Already have a account?{" "}
+              <Link to="/login" className="link link-info">
+                Sign in
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
+
+      <AuthImagePattern
+        title={"Join Our Community"}
+        subtitle={
+          "Connect with friends, share moments, and stay in touch with you"
+        }
+      />
     </div>
   );
 };
