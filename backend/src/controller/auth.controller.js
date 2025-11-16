@@ -99,7 +99,7 @@ export const updateProfile = async (req, res) => {
       { new: true }
     );
 
-    res.status(200).json({ updatedUser });
+    res.status(200).json(updatedUser);
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "internal server error" });
