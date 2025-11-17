@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 export const useChatStore = create((set) => ({
   messages: [],
   users: [],
-  selecteduser: null,
+  selectedUser: null,
   isUserLoading: false,
   isMessagesLoading: false,
 
