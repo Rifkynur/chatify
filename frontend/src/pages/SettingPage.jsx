@@ -103,7 +103,7 @@ const SettingPage = () => {
                       value="This is a preview"
                       className="input input-bordered flex-1 text-sm h-10"
                     />
-                    <button className="btn btn-neutral h-10">
+                    <button className="btn btn-accent h-10 text-primary-content">
                       <Send size={18} />
                     </button>
                   </div>

@@ -17,7 +17,6 @@ function App() {
   const { theme } = useThemeStore();
   useEffect(() => {
     checkAuth();
-    console.log(authUser);
   }, []);
 
   if (isCheckingAuth && !authUser) {
