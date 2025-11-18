@@ -27,7 +27,18 @@ const MessageInput = () => {
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
-  const handleSendMessage = async (e) => {};
+  const handleSendMessage = async (e) => {
+    e.preventDefault();
+    if (!text && !imagePreview) return;
+    try {
+      await sendMessage({ text: text.trim(), image: imagePreview });
+      setText("");
+      setImagePreview("");
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="p-4 w-full">
       {imagePreview && (
