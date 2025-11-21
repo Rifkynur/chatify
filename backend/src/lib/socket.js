@@ -9,8 +9,11 @@ const io = new Server(server, {
     origin: "*",
   },
 });
-
 const userSocketMap = {};
+
+export const getReceiverSocketId = (userId) => {
+  return userSocketMap[userId];
+};
 
 io.on("connection", (socket) => {
   console.log("a user connected ", socket.id);
