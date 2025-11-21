@@ -39,10 +39,10 @@ const Sidebar = () => {
                 alt="pofile pic"
                 className="size-12 object-cover rounded-full"
               />
+              {onlineUsers.includes(user._id) && (
+                <span className="absolute bottom-0 right-0 size-3 bg-green-500 rounded-full ring-2 ring-zinc-900"></span>
+              )}
             </div>
-            {onlineUsers.includes(user._id) && (
-              <span className="absolute bottom-0 right-0 size-3 bg-green-500 rounded-full ring-2 ring-zinc-900"></span>
-            )}
             <div className="hidden lg:block text-left min-w-0">
               <div className="font-medium truncate">{user.fullname}</div>
               <div className="text-sm text-zinc-400">
